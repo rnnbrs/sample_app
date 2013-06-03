@@ -28,6 +28,7 @@ group :test do
   gem 'rb-fsevent', '0.9.1', :require => false
   gem 'growl', '1.0.3'
   gem 'factory_girl_rails', '4.1.0'
+  gem 'database_cleaner'
 end
 
 group :production do

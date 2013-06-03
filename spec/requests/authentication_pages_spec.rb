@@ -91,6 +91,19 @@ describe "Authentication" do
           specify { response.should redirect_to(signin_path) }
         end
       end
+      
+      describe "in the mocroposts controller" do
+        
+        describe "submitting to the create action" do
+          before { post microposts_path }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+        
+        describe "submitting to the destroy action" do
+          before { delete micropost_path(FactoryGirl.create(:micropost)) }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+      end
     end
     
     describe "as wrong user" do
@@ -150,6 +163,17 @@ describe "Authentication" do
       describe "submitting to the Users#create action" do
         before { post users_path }
         specify { response.should redirect_to(root_path) }
+      end
+      
+      describe "visiting profile page" do
+        let!(:micropost) { FactoryGirl.create(:micropost, user: user) } 
+        before do
+          visit user_path(user)
+        end
+        
+        it "should show delete link on microposts" do
+          page.should have_link('delete', href: micropost_path(micropost))
+        end
       end
     end
   end
